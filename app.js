@@ -4,13 +4,15 @@ const   express         = require('express'),
         http            = require('http'),
         fs              = require("fs"),
         net             = require('net'),
+        request         = require('request'),
         TCP             = process.binding('tcp_wrap').TCP,
         socket          = new TCP(),
-        carDrive        = false;
+        carDrive        = false,
+        rpi_ip_address  = "192.168.1.220";
 let     sockets         = {},
         moveState       = {
-                            direction: null,
-                            value: 0
+                            rotate: 0,
+                            drive: 0
                         },
         cameraStatus    = false;
 
@@ -41,8 +43,45 @@ io.on('connection', function (socket) {
     });
 
     socket.on("move", function (e) {
-        moveState = e;
-    })
+        if(moveState.rotate !== e.rotate){
+            let v = parseInt(90000+((30000*e.rotate)/70));
+            request.post(
+                'http://'+rpi_ip_address+':2283/move_rotate',
+                { json: { value: v } }
+            ).on('error', function(err) {
+                console.log(err);
+            });
+            moveState.rotate = e.rotate;
+        }
+
+        if(moveState.drive !== e.drive){
+            let v = 0;
+            if (e.drive < 0){
+                v = parseInt(90000+((8000*e.drive)/70));
+            }
+            else{
+                v = parseInt(90000+((7000*e.drive)/70));
+            }
+
+            request.post(
+                'http://'+rpi_ip_address+':2283/move_drive',
+                { json: { value: v } }
+            ).on('error', function(err) {
+                console.log(err);
+            });
+            moveState.drive = e.drive;
+        }
+    });
+
+    socket.on("stop_drive", function (e) {
+        request.post(
+            'http://'+rpi_ip_address+':2283/stop',
+            { json: { value: 0 } }
+        ).on('error', function(err) {
+            console.log(err);
+        });
+    });
+
 });
 
 
@@ -86,11 +125,12 @@ const server = net.createServer((conn) => {
                     fs.writeFile(frameName,
                         frame, 'base64', function(err) {
                             if (err) console.log(err);
-                            let val = frameName+","+moveState.direction+","+parseFloat(moveState.value).toFixed(2);
+                            let val = frameName+","+parseFloat(moveState.rotate).toFixed(2) + "," +
+                                parseFloat(moveState.drive).toFixed(2);
                             fs.appendFile(folderName+'/move_data.txt', '\n'+val, function (err) {
                                 moveState = {
-                                    direction: null,
-                                    value: 0
+                                    rotate: 0,
+                                    drive: 0
                                 };
                                 if (err) throw err;
                             });

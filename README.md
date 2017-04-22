@@ -23,3 +23,7 @@ cd raspberry-pi-camera-server/raspberry_pi/
 python3 drive.py
 python3 main.py
 ```
+
+
+## License
+[GNU GENERAL PUBLIC LICENSE](https://github.com/exelban/raspberry-pi-camera-server/blob/master/LICENSE)

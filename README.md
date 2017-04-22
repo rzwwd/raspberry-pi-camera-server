@@ -2,7 +2,6 @@
 Web server for streaming video on Raspberry Pi
 
 ## Install
-Copy folder raspberry_pi to Raspberry Pi.
 
 On computer:
 ```sh
@@ -17,6 +16,10 @@ npm run start
 
 On Raspberry Pi:
 ```sh
+git clone https://github.com/exelban/raspberry-pi-camera-server
+
+cd raspberry-pi-camera-server/raspberry_pi/
+
 python3 drive.py
 python3 main.py
 ```

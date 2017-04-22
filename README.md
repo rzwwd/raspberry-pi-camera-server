@@ -26,4 +26,4 @@ python3 main.py
 
 
 ## License
-[GNU GENERAL PUBLIC LICENSE](https://github.com/exelban/raspberry-pi-camera-server/blob/master/LICENSE)
+[Apache License 2.0](https://github.com/exelban/raspberry-pi-camera-server/blob/master/LICENSE)

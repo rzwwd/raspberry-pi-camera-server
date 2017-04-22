@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
-const driveCar = false;
+const driveCar = true;
 let socket = NaN;
 
 let moveStatus = 0;

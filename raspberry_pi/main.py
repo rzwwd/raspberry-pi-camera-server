@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(description='Streaming video from Raspberry Pi.
 parser.add_argument("-width", type=int, default=640, help="Width of frame.")
 parser.add_argument("-height", type=int, default=480, help="Height of frame.")
 parser.add_argument("-fps", type=int, default=30, help="FPS from cam.")
-parser.add_argument("-ip", type=str, default="192.168.1.102", help="WebSocket (computer) server ip address.")
+parser.add_argument("-ip", type=str, default="192.168.1.101", help="WebSocket (computer) server ip address.")
 parser.add_argument("-port", type=int, default=2282, help="WebSocket (computer) port.")
 parser.add_argument("-vflip", type=int, default=1, help="Frame vertical flip.")
 parser.add_argument("-hflip", type=int, default=0, help="Frame horizontal flip.")
